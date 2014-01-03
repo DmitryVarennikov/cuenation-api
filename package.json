@@ -1,25 +1,27 @@
 {
-    "name": "cuentation-api",
-    "version": "0.0.0",
-    "author": {
-        "name": "dV",
+    "name":            "cuentation-api",
+    "version":         "0.0.0",
+    "author":          {
+        "name":  "dV",
         "email": "dVaffection@gmail.com"
     },
-    "private": true,
-    "repository": {
+    "private":         true,
+    "repository":      {
         "type": "git",
-        "url": "git://github.com/dVaffection/cuentation-api.git"
+        "url":  "git://github.com/dVaffection/cuentation-api.git"
     },
-    "dependencies": {
-        "express": "3.4.x",
-        "async": "0.2.x",
-        "cli-color": "0.2.x"
+    "dependencies":    {
+        "express":   "3.4.x",
+        "async":     "0.2.x",
+        "cli-color": "0.2.x",
+        "datejs":    "0.0.x"
     },
     "devDependencies": {
-        "nodeunit": "0.8.x"
+        "nodeunit": "0.8.x",
+        "mocha":    "1.16.x"
     },
-    "scripts": {
+    "scripts":         {
         "start": "node app.js",
-        "test": "node app.js &> /dev/null; ./node_modules/.bin/nodeunit tests/unit/*; ./node_modules/.bin/nodeunit tests/functional/*; killall node;"
+        "test":  "node app.js &> /dev/null; ./node_modules/.bin/nodeunit tests/unit/*; ./node_modules/.bin/nodeunit tests/functional/*; killall node;"
     }
 }

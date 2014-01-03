@@ -11,34 +11,52 @@ GET /subscriptions.json
 ```
 **Response**
 ```
+// error response
 {
-	"subscriptions": [
-    	{
-        	"category": "<string>",
-            "desc":     "<string>",
-            "image":    "<string>"
-        },
-        // ...
-    ]
+	"status": false,
+    "err":    "<string>"
+}
+// success response
+{
+	"status": true,
+    "data": {
+    	"subscriptions": [
+            {
+                "category": "<string>",
+                "desc":     "<string>",
+                "image":    "<string>"
+            },
+            // ...
+        ]
+    }
 }
 ```
 
 ### Subscriptions updates
 **Request**
 ```
-POST /subscriptions-updates.json
-categories[]=<string>&categories[]=<string>&last-update=<YYYY-MM-DDTHH:II:SS>
+GET /subscriptions-updates.json?categories[]=<string>&categories[]=<string>&last-update=<YYYY-MM-DDTHH:II:SS>
 ```
 **Response**
 ```
+// error response
 {
-	"updates": [
-    	{
-        	"category": "<string>",
-            "title":    "<string>",
-            "date":     "<YYYY-MM-DDTHH:II:SS>"
-        },
-        // ...
-    ]
+	"status": false,
+    "err":    "<string>"
+}
+// success response
+{
+	"status": true,
+    "data": {
+    	"updates_count":    "<integer>",
+        "updates": [
+            {
+                "category": "<string>",
+                "title":    "<string>",
+                "date":     "<YYYY-MM-DDTHH:II:SS>"
+            },
+            // ...
+        ]
+    }
 }
 ```

@@ -1,0 +1,14 @@
+*local.js
+/build/
+/vendor/
+/node_modules/
+/bin/
+/composer.phar
+.idea
+/program/
+!/program/program.js
+/log/
+!/log/.gitkeep
+/.gitkeep/
+/storage/
+!/storage/.gitkeep

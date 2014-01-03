@@ -35,7 +35,7 @@ GET /subscriptions.json
 ### Subscriptions updates
 **Request**
 ```
-GET /subscriptions-updates.json?categories[]=<string>&categories[]=<string>&last-update=<YYYY-MM-DDTHH:II:SS>
+GET /subscriptions-updates.json?categories[]=<string>&categories[]=<string>&last-update=<ISO_8601>
 ```
 **Response**
 ```
@@ -53,7 +53,8 @@ GET /subscriptions-updates.json?categories[]=<string>&categories[]=<string>&last
             {
                 "category": "<string>",
                 "title":    "<string>",
-                "date":     "<YYYY-MM-DDTHH:II:SS>"
+                // http://en.wikipedia.org/wiki/ISO_8601
+                "date":     "<ISO_8601>"
             },
             // ...
         ]

@@ -14,14 +14,14 @@
         "express":   "3.4.x",
         "async":     "0.2.x",
         "cli-color": "0.2.x",
-        "datejs":    "0.0.x"
+        "datejs":    "0.0.x",
+        "cheerio":   "~0.13.0"
     },
     "devDependencies": {
         "nodeunit": "0.8.x",
         "mocha":    "1.16.x"
     },
     "scripts":         {
-        "start": "node app.js",
-        "test":  "node app.js &> /dev/null; ./node_modules/.bin/nodeunit tests/unit/*; ./node_modules/.bin/nodeunit tests/functional/*; killall node;"
+        "start": "node app.js"
     }
 }

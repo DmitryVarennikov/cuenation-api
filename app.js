@@ -7,13 +7,12 @@ var express = require('express'),
     clc = require('cli-color'),
     config = require('./config/index');
 
-
-var subscriptionsStorage = new require('src/storage/subscriptions')(config.storage.subscriptions.filename),
-    subscriptionsUpdatesStorage = new require('src/storage/subscriptions')(config.storage.subscriptionsUpdates.filename),
-    htmlParser = new require('src/parser/HTML2JSON')(),
-    xmlParser = new require('src/parser/XML2JSON')(),
-    serviceSubscriptions = new require('src/service/subscriptions')(subscriptionsStorage, htmlParser),
-    serviceSubscriptionsUpdates = new require('src/service/subscriptions-updates')(subscriptionsUpdatesStorage, xmlParser);
+var subscriptionsStorage = new (require('./src/storage/subscriptions'))(config.storage.subscriptions.filename),
+    subscriptionsUpdatesStorage = new require('./src/storage/subscriptions')(config.storage.subscriptionsUpdates.filename),
+    htmlParser = new require('./src/parser/HTML2JSON')(),
+    xmlParser = new require('./src/parser/XML2JSON')(),
+    serviceSubscriptions = new require('./src/service/subscriptions')(subscriptionsStorage, htmlParser),
+    serviceSubscriptionsUpdates = new require('./src/service/subscriptions-updates')(subscriptionsUpdatesStorage, xmlParser);
 
 
 function errorHandler(err, req, res, next) {

@@ -1,5 +1,7 @@
 'use strict';
 
+var cheerio = require('cheerio');
+
 /**
  * @constructor
  */
@@ -14,9 +16,40 @@ function HTML2JSON() {
      * @param {Function} callback
      */
     this.categoriesPage = function (html, callback) {
-        var json = {};
+        var linkPrefix = 'http://cuenation.com/',
+            $,
+            subscriptions = [],
+            subscription;
 
-        callback(null, json);
+        $ = cheerio.load(html);
+        $('table tr', '#main_cell').each(function () {
+            var image,
+                category,
+                desc;
+            
+            subscription = {};
+
+            image = $(this).find('td').eq(0).find('img');
+            if (image.length) {
+                subscription.image = linkPrefix + $(image).attr('src');
+            }
+
+            category = $(this).find('td').eq(1).find('h2 a');
+            if (category.length) {
+                subscription.category = linkPrefix + $(category).attr('href');
+            }
+
+            desc = $(this).find('td').eq(1).find('i');
+            if (desc.length) {
+                subscription.desc = $(desc).text();
+            }
+
+            subscriptions.push(subscription);
+        });
+
+        callback(null, {subscriptions: subscriptions});
     }
 
 }
+
+module.exports = HTML2JSON;

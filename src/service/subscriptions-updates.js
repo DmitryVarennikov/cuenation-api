@@ -19,7 +19,6 @@ function ServiceSubscriptionsUpdates(storage, parser) {
      * @param {Function} callback
      */
     this.update = function (callback) {
-
     }
 
     /**

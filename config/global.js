@@ -10,10 +10,10 @@ module.exports = {
     },
     storage: {
         subscriptions:        {
-            filename: __dirname + '../data/subscriptions.json'
+            filename: __dirname + '/../data/subscriptions.json'
         },
         subscriptionsUpdates: {
-            filename: __dirname + '../data/subscriptions-updates.json'
+            filename: __dirname + '/../data/subscriptions-updates.json'
         }
     },
     log:     function () {

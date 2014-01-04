@@ -19,6 +19,7 @@ function ServiceSubscriptionsUpdates(storage, parser) {
      * @param {Function} callback
      */
     this.update = function (callback) {
+
     }
 
     /**
@@ -27,6 +28,7 @@ function ServiceSubscriptionsUpdates(storage, parser) {
      * @param {Function} callback
      */
     this.findNew = function (categories, datetime, callback) {
+
     }
 
 }

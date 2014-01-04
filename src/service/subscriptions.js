@@ -33,7 +33,7 @@ function ServiceSubscriptions(storage, parser) {
             });
             res.on('end', function () {
                 parser.categoriesPage(body, function (json) {
-                    storage.updateData(json, callback);
+                    storage.set(json, callback);
                 });
             });
         });

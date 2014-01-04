@@ -26,7 +26,7 @@ function HTML2JSON() {
             var image,
                 category,
                 desc;
-            
+
             subscription = {};
 
             image = $(this).find('td').eq(0).find('img');

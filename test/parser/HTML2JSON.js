@@ -14,7 +14,7 @@ describe('parser: HTML2JSON', function () {
             var expected;
 
             if (err) {
-                assert(err);
+                assert.ifError(err);
             }
 
             expected = { subscriptions: [

@@ -14,9 +14,13 @@ function ServiceSubscriptions(storage, parser) {
     }
 
     /**
-     * @param {Function} callback
+     * For test purpose
+     *
+     * @param {Function} onRes
+     * @param {Function} onErr
+     * @private
      */
-    this.update = function (callback) {
+    this._httpRequest = function (onRes, onErr) {
         var options = {
             host:   'cuentation.com',
             port:   80,
@@ -32,22 +36,45 @@ function ServiceSubscriptions(storage, parser) {
                 body += chunk;
             });
             res.on('end', function () {
-                parser.categoriesPage(body, function (json) {
-                    storage.set(json, callback);
-                });
+                onRes(body);
             });
         });
         // hope it's enough
         req.setTimeout(3000);
-        req.on('error', callback);
+        req.on('error', onErr);
         req.end();
     }
 
     /**
      * @param {Function} callback
      */
-    this.get = function (callback) {
+    this.update = function (callback) {
+        var onRes = function (body) {
+            parser.categoriesPage(body, function (err, json) {
+                if (err) {
+                    callback(err);
+                } else {
+                    storage.set(json, callback);
+                }
+            });
+        }
 
+        this._httpRequest(onRes, callback);
+    }
+
+    /**
+     * @param {Function} callback
+     */
+    this.get = function (callback) {
+        storage.get(function (err, json) {
+            var data;
+
+            data = {
+                subscriptions: json
+            };
+
+            callback(err, data);
+        });
     }
 
 }

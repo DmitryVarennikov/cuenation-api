@@ -17,8 +17,7 @@ function XML2JSON() {
      */
     this.feed = function (xml, callback) {
         var $,
-            updates = [],
-            json;
+            updates = [];
 
         $ = cheerio.load(xml);
         $('channel item').each(function () {
@@ -40,12 +39,7 @@ function XML2JSON() {
             }
         });
 
-        json = {
-            updates_count: updates.length,
-            updates:       updates
-        };
-
-        callback(null, json);
+        callback(null, updates);
     }
 
 }

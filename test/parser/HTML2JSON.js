@@ -17,7 +17,7 @@ describe('parser: HTML2JSON', function () {
                 assert.ifError(err);
             }
 
-            expected = { subscriptions: [
+            expected = [
                 { image:      'http://cuenation.com/thumb.php?image=images/asos/asos.jpg&scale=33&qual=95',
                     category: 'http://cuenation.com/?page=cues&folder=asos',
                     desc:     'with Armin van Buuren' },
@@ -31,7 +31,7 @@ describe('parser: HTML2JSON', function () {
                     category: 'http://cuenation.com/?page=cues&folder=asotpodcast',
                     desc:     'with Armin van Buuren' },
                 { category: 'http://cuenation.com/?page=cues&folder=aboraworld' }
-            ] };
+            ];
 
             assert.deepEqual(json, expected);
 

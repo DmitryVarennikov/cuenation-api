@@ -47,7 +47,7 @@ function HTML2JSON() {
             subscriptions.push(subscription);
         });
 
-        callback(null, {subscriptions: subscriptions});
+        callback(null, subscriptions);
     }
 
 }

@@ -1,4 +1,3 @@
-require('datejs'); // must be in bootstrap
 var express = require('express'),
     app = express(),
     util = require('util'),
@@ -57,13 +56,12 @@ app.get('/subscriptions-updates.json', function (req, res, next) {
         categories = [String(categories)];
     }
 
-    if (req.param('last-update', null)) {
-        date = Date.parse(req.param('last-update', null));
-    } else {
-        date = Date.today().add({ days: - 5});
+    date = new Date(req.param('last-update', ''));
+    if (! (date instanceof Date) || ! date.toJSON()) {
+        date = new Date();
     }
 
-    serviceSubscriptionsUpdates.findNew(categories, date, function (err, data) {
+    serviceSubscriptionsUpdates.getNew(categories, date, function (err, data) {
         var out;
         if (err) {
             out = {

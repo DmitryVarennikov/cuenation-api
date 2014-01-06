@@ -68,7 +68,31 @@ function ServiceSubscriptionsUpdates(storage, parser) {
      * @param {Function} callback
      */
     this.getNew = function (categories, datetime, callback) {
+        storage.get(function (err, updates) {
+            var filteredUpdates = [],
+                data,
+                updatesEntry;
 
+            if (err) {
+                callback(err);
+            } else {
+                for (var i = 0; i < updates.length; i ++) {
+                    updatesEntry = updates[i];
+                    if (- 1 !== categories.indexOf(updatesEntry.category) && updatesEntry.date > datetime) {
+                        filteredUpdates.push(updatesEntry);
+                    }
+                }
+
+                data = {
+                    "updates_count": filteredUpdates.length,
+                    "updates":       filteredUpdates
+                };
+
+                callback(null, data);
+            }
+        });
     }
 
 }
+
+module.exports = ServiceSubscriptionsUpdates;

@@ -22,7 +22,7 @@ function StorageAbstract(filename) {
 StorageAbstract.prototype.get = function (callback) {
     var err,
         rawData,
-        data;
+        data = {};
 
     try {
         if (! fs.existsSync(this._filename)) {
@@ -30,12 +30,21 @@ StorageAbstract.prototype.get = function (callback) {
             err.id = 'storageDoesNotExist';
             callback(err);
         } else {
-            rawData = fs.readFileSync(this._filename, {flag: 'r', encoding: 'utf8'});
-            if (rawData) {
-                data = JSON.parse(rawData);
-            }
+            fs.readFile(this._filename, {flag: 'r', encoding: 'utf8'}, function (err, rawData) {
+                if (err) {
+                    callback(err);
+                }
 
-            callback(null, data);
+                try {
+                    if (rawData) {
+                        data = JSON.parse(rawData);
+                    }
+
+                    callback(null, data);
+                } catch (err) {
+                    callback(err);
+                }
+            });
         }
     } catch (e) {
         callback(e);
@@ -49,15 +58,15 @@ StorageAbstract.prototype.get = function (callback) {
 StorageAbstract.prototype.set = function (data, callback) {
     var rawData;
 
-    try {
-        if (data) {
+    if (data) {
+        try {
             rawData = JSON.stringify(data);
-            fs.writeFileSync(this._filename, rawData, {flag: 'w', encoding: 'utf8'});
+            fs.writeFile(this._filename, rawData, {flag: 'w', encoding: 'utf8'}, callback);
+        } catch (err) {
+            callback(err);
         }
-
+    } else {
         callback(null);
-    } catch (e) {
-        callback(e);
     }
 }
 

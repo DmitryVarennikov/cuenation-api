@@ -7,29 +7,27 @@ describe('storage: abstract', function () {
     var filename = __dirname + '/../../data/test.json',
         storage = new (require('../../src/storage/abstract'))(filename);
 
-    beforeEach(function (done) {
+    beforeEach(function () {
         if (fs.existsSync(filename)) {
             fs.unlinkSync(filename);
         }
-
-        done();
     });
 
-    afterEach(function (done) {
+    afterEach(function () {
         if (fs.existsSync(filename)) {
             fs.unlinkSync(filename);
         }
-
-        done();
     });
 
-    it('get: storage does not exist', function () {
+    it('get: storage does not exist', function (done) {
         storage.get(function (err, data) {
             assert.strictEqual(err.id, 'storageDoesNotExist');
+
+            done();
         });
     });
 
-    it('get: success', function () {
+    it('get: success', function (done) {
         var data = {a: 1},
             rawData = JSON.stringify(data);
 
@@ -41,10 +39,12 @@ describe('storage: abstract', function () {
             }
 
             assert.deepEqual(actual, data);
+
+            done();
         });
     });
 
-    it('set: success', function () {
+    it('set: success', function (done) {
         var data = {a: 1},
             rawData,
             actual;
@@ -57,6 +57,8 @@ describe('storage: abstract', function () {
             rawData = fs.readFileSync(filename, {flag: 'r', encoding: 'utf8'});
             actual = JSON.parse(rawData);
             assert.deepEqual(actual, data);
+
+            done();
         });
     });
 });

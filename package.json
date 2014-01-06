@@ -22,6 +22,7 @@
         "mocha":    "1.16.x"
     },
     "scripts":         {
-        "start": "node app.js"
+        "start": "node app.js",
+        "test":  "node_modules/mocha/bin/mocha --recursive --reporter spec"
     }
 }

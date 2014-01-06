@@ -6,7 +6,7 @@ describe('parser: HTML2JSON', function () {
 
     var parser = new (require('../../src/parser/HTML2JSON'));
 
-    it('categoriesPage', function () {
+    it('categoriesPage', function (done) {
         var filename = __dirname + '/../../dev/categories.html',
             html = fs.readFileSync(filename, {flag: 'r', encoding: 'utf8'});
 
@@ -34,6 +34,8 @@ describe('parser: HTML2JSON', function () {
             ] };
 
             assert.deepEqual(json, expected);
+
+            done();
         });
     });
 });

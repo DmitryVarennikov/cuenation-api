@@ -6,7 +6,7 @@ describe('parser: XML2JSON', function () {
 
     var parser = new (require('../../src/parser/XML2JSON'));
 
-    it('feed', function () {
+    it('feed', function (done) {
         var filename = __dirname + '/../../dev/feed.xml',
             xml = fs.readFileSync(filename, {flag: 'r', encoding: 'utf8'});
 
@@ -42,6 +42,8 @@ describe('parser: XML2JSON', function () {
             }
 
             assert.deepEqual(json, expected);
+
+            done();
         });
     });
 });

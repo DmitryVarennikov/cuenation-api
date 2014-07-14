@@ -1,4 +1,0 @@
-'use strict';
-
-//@TODO: call subscriptions service and update data
-//@TODO: use bootstrap to bootstrap app from different points of entry

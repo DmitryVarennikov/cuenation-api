@@ -1,11 +1,12 @@
-*local.js
-/build/
-/vendor/
-/node_modules/
-/bin/
-/composer.phar
+# Java class files
+*.class
+
+# IDE metadata dirs
 .idea
-/log/
-!/log/.gitkeep
-/data/
-!/data/.gitkeep
+*.iml
+META-INF/
+
+
+# gradle files
+.gradle
+build/

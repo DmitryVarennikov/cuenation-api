@@ -1,7 +1,8 @@
 package hello;
 
-import com.fasterxml.jackson.annotation.*;
-import org.springframework.hateoas.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.ResourceSupport;
 
 public class Greeting extends ResourceSupport {
 

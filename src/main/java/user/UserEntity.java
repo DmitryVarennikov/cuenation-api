@@ -1,17 +1,17 @@
-package hello;
+package user;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
-public class User {
+public class UserEntity {
 
     @Id
     private String id;
 
     private String token;
 
-    public User(String token) {
+    public UserEntity(String token) {
         setToken(token);
     }
 

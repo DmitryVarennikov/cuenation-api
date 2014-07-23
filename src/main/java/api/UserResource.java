@@ -1,4 +1,4 @@
-package user;
+package api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,6 +19,6 @@ public class UserResource extends ResourceSupport {
         id = user.getId();
         token = user.getToken();
 
-        add(linkTo(methodOn(UserController.class).get(id)).withSelfRel());
+        add(linkTo(methodOn(UserController.class).get(token)).withSelfRel());
     }
 }

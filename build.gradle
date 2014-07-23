@@ -18,7 +18,7 @@ jar {
 }
 
 springBoot {
-    mainClass = "user.Application"
+    mainClass = "api.Application"
 }
 
 repositories {
@@ -44,5 +44,8 @@ dependencies {
 }
 
 test {
-    include 'test/main/java/*'
+    useJUnit()
+
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = true
 }

@@ -1,13 +1,17 @@
-package user;
+package api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @Controller
 @RequestMapping("/user-tokens")
@@ -24,6 +28,7 @@ public class UserController {
         ResponseEntity responseEntity;
         if (user instanceof UserEntity) {
             UserResource userResource = new UserResource(user);
+
             responseEntity = new ResponseEntity<UserResource>(userResource, HttpStatus.OK);
         } else {
             responseEntity = new ResponseEntity<UserResource>(HttpStatus.NOT_FOUND);
@@ -40,7 +45,10 @@ public class UserController {
         UserEntity user = new UserEntity(uuid.toString());
         userRepository.save(user);
 
-        return new ResponseEntity<UserResource>(HttpStatus.CREATED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(linkTo(methodOn(UserController.class).get(user.getToken())).toUri());
+
+        return new ResponseEntity<UserResource>(headers, HttpStatus.CREATED);
     }
 
 }

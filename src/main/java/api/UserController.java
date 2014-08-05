@@ -1,5 +1,6 @@
 package api;
 
+import api.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,15 +24,15 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, value = "/{token}")
     @ResponseBody
     public HttpEntity<UserResource> get(@PathVariable("token") String token) {
-        UserEntity user = userRepository.findByToken(token);
+        User user = userRepository.findByToken(token);
 
         ResponseEntity responseEntity;
-        if (user instanceof UserEntity) {
+        if (user instanceof User) {
             UserResource userResource = new UserResource(user);
 
-            responseEntity = new ResponseEntity<UserResource>(userResource, HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(userResource, HttpStatus.OK);
         } else {
-            responseEntity = new ResponseEntity<UserResource>(HttpStatus.NOT_FOUND);
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return responseEntity;
@@ -42,13 +43,13 @@ public class UserController {
     public ResponseEntity<UserResource> post() {
         UUID uuid = UUID.randomUUID();
 
-        UserEntity user = new UserEntity(uuid.toString());
+        User user = new User(uuid.toString());
         userRepository.save(user);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(linkTo(methodOn(UserController.class).get(user.getToken())).toUri());
 
-        return new ResponseEntity<UserResource>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
 }

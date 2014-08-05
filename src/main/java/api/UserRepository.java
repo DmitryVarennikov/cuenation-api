@@ -1,9 +1,12 @@
 package api;
 
+import api.domain.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends MongoRepository<UserEntity, String> {
+@Repository
+public interface UserRepository extends MongoRepository<User, String> {
 
-    public UserEntity findByToken(String token);
+    public User findByToken(String token);
 
 }

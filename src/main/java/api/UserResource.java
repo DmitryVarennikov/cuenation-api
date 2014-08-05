@@ -1,5 +1,6 @@
 package api;
 
+import api.domain.User;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.ResourceSupport;
@@ -15,7 +16,7 @@ public class UserResource extends ResourceSupport {
     String token;
 
     @JsonCreator
-    public UserResource(UserEntity user) {
+    public UserResource(User user) {
         id = user.getId();
         token = user.getToken();
 

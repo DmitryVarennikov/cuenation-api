@@ -18,7 +18,7 @@ jar {
 }
 
 springBoot {
-    mainClass = "api.Application"
+    mainClass = "Application"
 }
 
 repositories {

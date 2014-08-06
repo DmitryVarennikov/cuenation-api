@@ -34,9 +34,9 @@ dependencies {
     compile("org.springframework.hateoas:spring-hateoas")
     compile("org.springframework.plugin:spring-plugin-core:1.1.0.RELEASE")
     compile("com.jayway.jsonpath:json-path:0.9.1")
-//    compile("org.springframework.data:spring-data-mongodb")
-//    compile("org.springframework.data:spring-data-rest-webmvc")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile 'rome:rome-fetcher:1.0'
+    compile 'rome:rome:1.0'
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.springframework:spring-test")
     testCompile group: 'junit', name: 'junit', version: '4.11'

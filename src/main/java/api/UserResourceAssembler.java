@@ -1,6 +1,5 @@
 package api;
 
-import api.domain.User;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
 public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserResource> {

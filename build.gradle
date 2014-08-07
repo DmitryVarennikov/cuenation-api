@@ -43,6 +43,19 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.+'
 }
 
+task updateCueCategories(type: JavaExec) {
+    description = 'Updates cue categories from "http://cuenation.com/?page=categories" page'
+    group = 'Cli'
+    main = 'cli.UpdateCueCategories'
+    classpath = sourceSets.main.runtimeClasspath
+}
+task updateCues(type: JavaExec) {
+    description = 'Updates cues from "http://cuenation.com/feed.php" page'
+    group = 'Cli'
+    main = 'cli.UpdateCues'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 test {
     useJUnit()
 

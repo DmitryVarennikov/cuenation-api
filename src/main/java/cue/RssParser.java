@@ -24,7 +24,7 @@ public class RssParser {
 
             // avoid adding non-full cues
             if (title.length() > 0 && link.length() > 0 && category.length() > 0) {
-                cueCategory = new CueCategory(category);
+                cueCategory = new CueCategory(category, "");
 
                 cues.add(new Cue(title, link, cueCategory));
             }
@@ -34,11 +34,11 @@ public class RssParser {
     }
 
     /**
-     * @param input example: "[SyndCategoryImpl.taxonomyUri=null\nSyndCategoryImpl.name=Promo Mixes\n]"
-     * @return example: "Promo Mixes"
+     * @param input example: "[SyndCategoryImpl.taxonomyUri=null\nSyndCategoryImpl.name=Corsten's Countdown\n]"
+     * @return example: "Corsten's Countdown"
      */
     private String trimCategory(String input) {
-        String regex = ".*SyndCategoryImpl.name=([a-z0-9-_ ]+).*$";
+        String regex = ".*SyndCategoryImpl.name=(.+)\n]$";
         Pattern pattern = Pattern.compile(regex, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(input);
 

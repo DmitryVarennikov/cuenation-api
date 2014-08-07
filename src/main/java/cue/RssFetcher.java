@@ -13,8 +13,8 @@ import java.net.URL;
 @Component
 public class RssFetcher {
 
-    public SyndFeed fetch(String url) throws IOException, FetcherException, FeedException {
-        URL feedUrl = new URL(url);
+    public SyndFeed fetch() throws IOException, FetcherException, FeedException {
+        URL feedUrl = new URL("http://cuenation.com/feed.php");
 
         FeedFetcher feedFetcher = new HttpURLFeedFetcher();
         return feedFetcher.retrieveFeed(feedUrl);

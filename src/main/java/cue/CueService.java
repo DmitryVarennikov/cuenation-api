@@ -14,12 +14,13 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class CueService {
 
-    Logger logger = LoggerFactory.getLogger(BgTasks.class);
+    Logger logger = LoggerFactory.getLogger(CueService.class);
 
     @Autowired
     private MongoOperations mongoOperations;
@@ -33,16 +34,18 @@ public class CueService {
     @Autowired
     private RssParser parser;
 
+    @Autowired
+    private CategoriesHtmlParser categoriesHtmlParser;
+
     public int updateCues() {
         int cuesNumber = 0;
 
         try {
-            String url = "http://cuenation.com/feed.php";
-            SyndFeed feed = fetcher.fetch(url);
+            SyndFeed feed = fetcher.fetch();
 
             List<Cue> cues = parser.parse(feed);
             for (Cue cue : cues) {
-                if (save(cue)) {
+                if (saveCue(cue)) {
                     cuesNumber++;
                 }
             }
@@ -53,21 +56,23 @@ public class CueService {
         return cuesNumber;
     }
 
-    private boolean save(Cue cue) {
-        // make sure given category exists in db
-        CueCategory cueCategory;
-        cueCategory = cueCategoryRepository.findByName(cue.getCategory().getName());
-        if (!(cueCategory instanceof CueCategory)) {
-            cueCategory = cueCategoryRepository.save(cue.getCategory());
+    private boolean saveCue(Cue cue) {
+        // first make sure the given category exists in our db
+        CueCategory cueCategory = cueCategoryRepository.findByName(cue.getCategory().getName());
+        if (cueCategory == null) {
+            String message = String.format(
+                    "Cue category [%s] was not found, cue is not saved",
+                    cue.getCategory().getName());
+            logger.error(message);
+            return false;
         }
-        // re-set category but with ID this time to avoid
-        // "Cannot create a reference to an object with a NULL id" error
+
         cue.setCategory(cueCategory);
 
 
         // insert cue if it's not in db yet
         Query query = new Query();
-        query.addCriteria(Criteria.where("link").is(cue.getLink()));
+        query.addCriteria(Criteria.where("title").is(cue.getTitle()));
 
         Update update = new Update();
         update.set("title", cue.getTitle()).set("link", cue.getLink()).set("category", cue.getCategory());
@@ -75,6 +80,41 @@ public class CueService {
         WriteResult writeResult = mongoOperations.upsert(query, update, Cue.class);
         // if record was updated we treat it wasn't added anew
         // records are unlikely to be changed, so we basically need to know how many new were added
+        return !writeResult.isUpdateOfExisting();
+    }
+
+    public int updateCueCategories() {
+        int cueCategoriesNumber = 0;
+
+        List<CueCategory> categories = Collections.EMPTY_LIST;
+        try {
+            categories = categoriesHtmlParser.parse();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+
+        for (CueCategory category : categories) {
+            if (saveCategory(category)) {
+                cueCategoriesNumber++;
+            }
+        }
+
+        return cueCategoriesNumber;
+    }
+
+    private boolean saveCategory(CueCategory category) {
+        if (category.getLink().length() == 0) {
+            throw new IllegalArgumentException("Category link can not be empty");
+        }
+
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").is(category.getName()));
+
+        Update update = new Update();
+        update.set("name", category.getName()).set("link", category.getLink());
+
+        WriteResult writeResult = mongoOperations.upsert(query, update, CueCategory.class);
         return !writeResult.isUpdateOfExisting();
     }
 

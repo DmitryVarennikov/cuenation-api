@@ -11,9 +11,9 @@ public class Cue {
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private String title;
 
-    @Indexed(unique = true)
     private String link;
 
     @DBRef

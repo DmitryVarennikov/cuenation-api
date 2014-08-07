@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CueRepository extends MongoRepository<Cue, String> {
+public interface CueCategoryRepository extends MongoRepository<CueCategory, String> {
 
+    CueCategory findByName(String name);
 }

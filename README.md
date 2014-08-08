@@ -7,7 +7,6 @@ Provides API ends for [CueNation Chrome ext](https://github.com/dVaffection/cuen
 
 ### User tokens
 
-
 **Request**
 `GET /user-tokens/{token}`
 
@@ -19,13 +18,13 @@ Content-Type: application/hal+json
 **Success response body**
 ```
 {
-   "_links":{
-      "self":{
-         "href":"http://localhost:8080/user-tokens/a20f45eb-5edc-44d4-a91a-7fa3554a091b"
-      }
-   },
-   "id":"53e133d8e4b0171f2ed38bc0",
-   "token":"a20f45eb-5edc-44d4-a91a-7fa3554a091b"
+  "_links":{
+    "self":{
+      "href":"http://localhost:8080/user-tokens/a20f45eb-5edc-44d4-a91a-7fa3554a091b"
+    }
+  },
+  "id":"53e133d8e4b0171f2ed38bc0",
+  "token":"a20f45eb-5edc-44d4-a91a-7fa3554a091b"
 }
 ```
 **Error response headers**
@@ -41,4 +40,30 @@ HTTP/1.1 404 Not Found
 ```
 HTTP/1.1 201 Created
 Location: http://localhost:8080/user-tokens/3b394585-e84c-4df8-9aa0-9fd067ed66ce
+```
+
+### Cue categories
+
+**Request**
+`GET /cue-categories`
+
+**Success response headers**
+```
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+**Success response body**
+```
+[
+  {
+    "id":"53e3f55779261ba4e6388443",
+    "name":"Uncontrolled Environment",
+    "link":"http://cuenation.com/?page=cues&folder=uncontrolledenvironment"
+  },
+  {
+    "id":"53e3f55779261ba4e638842c",
+    "name":"TranceFormation Russian Trance Sessions",
+    "link":"http://cuenation.com/?page=cues&folder=tranceformationrussiantrancesessions"
+  }
+]
 ```

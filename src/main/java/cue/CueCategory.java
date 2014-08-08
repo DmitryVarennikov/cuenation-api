@@ -20,6 +20,10 @@ public class CueCategory {
         this.link = link;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

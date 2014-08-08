@@ -9,16 +9,13 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 public class UserResource extends ResourceSupport {
 
-    @JsonProperty("id")
-    String id;
     @JsonProperty("token")
     String token;
 
     @JsonCreator
     public UserResource(User user) {
-        id = user.getId();
         token = user.getToken();
 
-        add(linkTo(methodOn(UserController.class).get(token)).withSelfRel());
+        add(linkTo(methodOn(UserTokenController.class).get(token)).withSelfRel());
     }
 }

@@ -16,14 +16,13 @@ HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
 **Success response body**
-```
+```json
 {
   "_links":{
     "self":{
       "href":"http://localhost:8080/user-tokens/a20f45eb-5edc-44d4-a91a-7fa3554a091b"
     }
   },
-  "id":"53e133d8e4b0171f2ed38bc0",
   "token":"a20f45eb-5edc-44d4-a91a-7fa3554a091b"
 }
 ```
@@ -53,17 +52,55 @@ HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
 **Success response body**
-```
+```json
 [
   {
     "id":"53e3f55779261ba4e6388443",
     "name":"Uncontrolled Environment",
     "link":"http://cuenation.com/?page=cues&folder=uncontrolledenvironment"
-  },
-  {
-    "id":"53e3f55779261ba4e638842c",
-    "name":"TranceFormation Russian Trance Sessions",
-    "link":"http://cuenation.com/?page=cues&folder=tranceformationrussiantrancesessions"
   }
 ]
+```
+
+### User cue categories
+
+**Request**
+`GET /user-tokens/{token}/categories`
+
+**Success response headers**
+```
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+**Success response body**
+```json
+[
+  {
+    "id":"53e3f55779261ba4e6388443",
+    "name":"Uncontrolled Environment",
+    "link":"http://cuenation.com/?page=cues&folder=uncontrolledenvironment"
+  }
+]
+```
+
+**Request headers**
+```
+Content-Type: application/json
+```
+
+**Request body**
+```
+PUT /user-tokens/{token}/categories
+{
+  "category_ids":[
+    "53e3f55779261ba4e6388443",
+    "53e3f55779261ba4e638844d"
+  ]
+}
+```
+
+**Success response headers**
+```
+HTTP/1.1 200 OK
+Location: http://localhost:8080/user-tokens/{token}/categories
 ```

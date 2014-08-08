@@ -5,7 +5,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -13,15 +12,14 @@ import java.util.UUID;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-@Controller
+@RestController
 @RequestMapping("/user-tokens")
-public class UserController {
+public class UserTokenController {
 
     @Autowired
     private UserRepository userRepository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{token}")
-    @ResponseBody
     public HttpEntity<UserResource> get(@PathVariable("token") String token) {
         User user = userRepository.findByToken(token);
 
@@ -38,7 +36,6 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity<UserResource> post() {
         UUID uuid = UUID.randomUUID();
 
@@ -46,7 +43,7 @@ public class UserController {
         userRepository.save(user);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(linkTo(methodOn(UserController.class).get(user.getToken())).toUri());
+        headers.setLocation(linkTo(methodOn(UserTokenController.class).get(user.getToken())).toUri());
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }

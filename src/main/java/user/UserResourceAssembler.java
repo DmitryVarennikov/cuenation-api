@@ -5,7 +5,7 @@ import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserResource> {
 
     public UserResourceAssembler() {
-        super(UserController.class, UserResource.class);
+        super(UserTokenController.class, UserResource.class);
     }
 
     @Override

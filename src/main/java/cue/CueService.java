@@ -118,4 +118,11 @@ public class CueService {
         return !writeResult.isUpdateOfExisting();
     }
 
+    public List<CueCategory> findAllByIds(List<String> ids) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").in(ids));
+
+        return mongoOperations.find(query, CueCategory.class);
+    }
+
 }

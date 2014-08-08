@@ -15,7 +15,7 @@ public class UserControllerTest {
 
     @Before
     public void setUp() {
-        mockMVC = MockMvcBuilders.standaloneSetup(new UserController()).build();
+        mockMVC = MockMvcBuilders.standaloneSetup(new UserTokenController()).build();
     }
 
     @Test
@@ -43,8 +43,8 @@ public class UserControllerTest {
 //
 //        HttpEntity<String> requestEntity = new HttpEntity<String>(headers);
 
-//        ResponseEntity<UserController> responseEntity = template.getForEntity(
-//                "http://localhost:8080/api-tokens/non-existing-token", UserController.class);
+//        ResponseEntity<UserTokenController> responseEntity = template.getForEntity(
+//                "http://localhost:8080/api-tokens/non-existing-token", UserTokenController.class);
 
 //        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     }

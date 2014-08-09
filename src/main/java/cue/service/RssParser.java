@@ -1,7 +1,9 @@
-package cue;
+package cue.service;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
+import cue.domain.Cue;
+import cue.domain.CueCategory;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

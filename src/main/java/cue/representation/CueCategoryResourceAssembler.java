@@ -1,5 +1,7 @@
-package cue;
+package cue.representation;
 
+import cue.CategoryController;
+import cue.domain.CueCategory;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
 public class CueCategoryResourceAssembler extends ResourceAssemblerSupport<CueCategory, CueCategoryResource> {

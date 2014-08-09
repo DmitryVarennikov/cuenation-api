@@ -1,4 +1,4 @@
-package cue;
+package cue.service;
 
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.fetcher.FeedFetcher;

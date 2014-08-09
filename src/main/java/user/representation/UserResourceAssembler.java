@@ -1,6 +1,8 @@
-package user;
+package user.representation;
 
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
+import user.UserTokenController;
+import user.domain.User;
 
 public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserResource> {
 

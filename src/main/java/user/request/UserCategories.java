@@ -1,10 +1,10 @@
-package user;
+package user.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class UserCategoryBodyRequest {
+public class UserCategories {
 
     @JsonProperty("category_ids")
     private List<String> categoryIds;

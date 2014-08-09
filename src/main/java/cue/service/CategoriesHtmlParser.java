@@ -1,5 +1,6 @@
-package cue;
+package cue.service;
 
+import cue.domain.CueCategory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

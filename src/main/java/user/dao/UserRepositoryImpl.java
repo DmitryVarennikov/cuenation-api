@@ -1,30 +1,26 @@
-package user;
+package user.dao;
 
-import cue.CueCategory;
-import cue.CueCategoryRepository;
-import cue.CueService;
+import cue.dao.CueCategoryRepository;
+import cue.domain.CueCategory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import user.domain.User;
+import user.request.UserCategories;
 
 import java.util.List;
 
-@Service
-public class UserService {
-
-    @Autowired
-    private UserRepository userRepository;
+public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Autowired
     private CueCategoryRepository cueCategoryRepository;
 
     @Autowired
-    private CueService cueService;
+    private UserRepository userRepository;
 
-    public void setUserCategories(User user, UserCategoryBodyRequest request) {
+    @Override
+    public void saveUserCategories(User user, UserCategories request) {
         List<CueCategory> categories = cueCategoryRepository.findByIdIn(request.getCategoryIds());
 
         user.setCategories(categories);
         userRepository.save(user);
     }
-
 }

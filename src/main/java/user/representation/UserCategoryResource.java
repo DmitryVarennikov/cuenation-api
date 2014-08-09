@@ -1,10 +1,11 @@
-package cue;
+package user.representation;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import cue.domain.CueCategory;
 import org.springframework.hateoas.ResourceSupport;
 
-public class CueCategoryResource extends ResourceSupport {
+public class UserCategoryResource extends ResourceSupport {
 
     @JsonProperty("id")
     private String id;
@@ -16,7 +17,7 @@ public class CueCategoryResource extends ResourceSupport {
     private String link;
 
     @JsonCreator
-    public CueCategoryResource(CueCategory cueCategory) {
+    public UserCategoryResource(CueCategory cueCategory) {
         id = cueCategory.getId();
         name = cueCategory.getName();
         link = cueCategory.getLink();

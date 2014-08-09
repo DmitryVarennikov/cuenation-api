@@ -1,6 +1,6 @@
-package user;
+package user.domain;
 
-import cue.CueCategory;
+import cue.domain.CueCategory;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;

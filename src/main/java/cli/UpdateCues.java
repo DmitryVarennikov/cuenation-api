@@ -1,6 +1,6 @@
 package cli;
 
-import cue.CueService;
+import cue.service.CueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

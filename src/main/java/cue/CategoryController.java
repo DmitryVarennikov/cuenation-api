@@ -1,5 +1,8 @@
 package cue;
 
+import cue.dao.CueCategoryRepository;
+import cue.domain.CueCategory;
+import cue.representation.CueCategoryResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,15 @@
 package user;
 
-import cue.CueCategory;
-import cue.CueService;
+import cue.domain.CueCategory;
+import cue.service.CueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import user.dao.UserRepository;
+import user.domain.User;
+import user.representation.UserCategoryResource;
+import user.request.UserCategories;
 
 import java.util.List;
 
@@ -15,12 +19,6 @@ public class UserCategoryController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private CueService cueService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<UserCategoryResource>> list(@PathVariable("token") String token) {
@@ -40,7 +38,7 @@ public class UserCategoryController {
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<List<UserCategoryResource>> put(
             @PathVariable("token") String token,
-            @RequestBody UserCategoryBodyRequest request) {
+            @RequestBody UserCategories request) {
 
         User user = userRepository.findByToken(token);
 
@@ -48,7 +46,7 @@ public class UserCategoryController {
         if (user == null) {
             responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            userService.setUserCategories(user, request);
+            userRepository.saveUserCategories(user, request);
             responseEntity = new ResponseEntity<>(HttpStatus.OK);
         }
 

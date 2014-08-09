@@ -5,6 +5,18 @@ Provides API ends for [CueNation Chrome ext](https://github.com/dVaffection/cuen
 
 # API ends
 
+**Common error response**
+```json
+{
+  "timestamp":1407552886827,
+  "status":500,
+  "error":"Internal Server Error",
+  "exception":"java.lang.IndexOutOfBoundsException",
+  "message":"Index: 0, Size: 0",
+  "path":"{url}"
+}
+```
+
 ### User tokens
 
 **Request**
@@ -89,12 +101,12 @@ Content-Type: application/json
 ```
 
 **Request body**
-```
-PUT /user-tokens/{token}/categories
+`PUT /user-tokens/{token}/categories`
+```json
 {
   "category_ids":[
-    "53e3f55779261ba4e6388443",
-    "53e3f55779261ba4e638844d"
+    "53e3f55779261ba4e6388282",
+    "53e3f55779261ba4e638844e"
   ]
 }
 ```
@@ -103,4 +115,26 @@ PUT /user-tokens/{token}/categories
 ```
 HTTP/1.1 200 OK
 Location: http://localhost:8080/user-tokens/{token}/categories
+```
+
+
+### User cues 
+
+**Request**
+`GET /user-tokens/{token}/cues`
+
+**Success response headers**
+```
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+**Success response body**
+```json
+[
+  {
+    "id":"53e3f55779261ba4e6388443",
+    "name":"Uncontrolled Environment",
+    "link":"http://cuenation.com/?page=cues&folder=uncontrolledenvironment"
+  }
+]
 ```

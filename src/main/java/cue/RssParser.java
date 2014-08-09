@@ -4,6 +4,7 @@ import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -15,18 +16,20 @@ public class RssParser {
     public List<Cue> parse(SyndFeed feed) {
         List<Cue> cues = new LinkedList<>();
         String title, link, category;
+        Date createdAt;
         CueCategory cueCategory;
 
         for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
             title = entry.getTitle();
             link = entry.getLink();
+            createdAt = entry.getPublishedDate();
             category = trimCategory(entry.getCategories().get(0).toString());
 
             // avoid adding non-full cues
             if (title.length() > 0 && link.length() > 0 && category.length() > 0) {
                 cueCategory = new CueCategory(category, "");
 
-                cues.add(new Cue(title, link, cueCategory));
+                cues.add(new Cue(title, link, createdAt, cueCategory));
             }
         }
 
@@ -34,11 +37,11 @@ public class RssParser {
     }
 
     /**
-     * @param input example: "[SyndCategoryImpl.taxonomyUri=null\nSyndCategoryImpl.name=Corsten's Countdown\n]"
+     * @param input example: "SyndCategoryImpl.taxonomyUri=null\nSyndCategoryImpl.name=Corsten's Countdown\n"
      * @return example: "Corsten's Countdown"
      */
     private String trimCategory(String input) {
-        String regex = ".*SyndCategoryImpl.name=(.+)\n]$";
+        String regex = ".*SyndCategoryImpl.name=(.+)";
         Pattern pattern = Pattern.compile(regex, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(input);
 

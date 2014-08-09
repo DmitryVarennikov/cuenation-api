@@ -7,14 +7,19 @@ import com.sun.syndication.io.FeedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import user.User;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -29,6 +34,12 @@ public class CueService {
     private CueCategoryRepository cueCategoryRepository;
 
     @Autowired
+    private UserCueRepository userCueRepository;
+
+    @Autowired
+    private CueRepository cueRepository;
+
+    @Autowired
     private RssFetcher fetcher;
 
     @Autowired
@@ -36,6 +47,30 @@ public class CueService {
 
     @Autowired
     private CategoriesHtmlParser categoriesHtmlParser;
+
+    public void updateUserCues(User user) {
+        List<CueCategory> subscribedCategories = user.getCategories();
+
+        PageRequest pageRequest = new PageRequest(0, 1, new Sort(Sort.Direction.DESC, "id"));
+        Page page = userCueRepository.findAll(pageRequest);
+        UserCue recentUserCue = page.getContent().size() > 0 ? (UserCue) page.getContent().get(0) : null;
+
+        List<Cue> freshCues;
+        if (recentUserCue != null) {
+            freshCues = cueRepository.findByIdGreaterThanAndCategoryIn(recentUserCue.getId(), subscribedCategories);
+        } else {
+            freshCues = cueRepository.findByCategoryIn(subscribedCategories);
+        }
+
+        List<UserCue> userCues = new LinkedList<>();
+        for (Cue freshCue : freshCues) {
+            userCues.add(new UserCue(user, freshCue));
+        }
+
+        System.out.println(userCues);
+
+        mongoOperations.insertAll(userCues);
+    }
 
     public int updateCues() {
         int cuesNumber = 0;
@@ -75,7 +110,11 @@ public class CueService {
         query.addCriteria(Criteria.where("title").is(cue.getTitle()));
 
         Update update = new Update();
-        update.set("title", cue.getTitle()).set("link", cue.getLink()).set("category", cue.getCategory());
+        update
+                .set("title", cue.getTitle())
+                .set("link", cue.getLink())
+                .set("createdAt", cue.getCreatedAt())
+                .set("category", cue.getCategory());
 
         WriteResult writeResult = mongoOperations.upsert(query, update, Cue.class);
         // if record was updated we treat it wasn't added anew
@@ -116,13 +155,6 @@ public class CueService {
 
         WriteResult writeResult = mongoOperations.upsert(query, update, CueCategory.class);
         return !writeResult.isUpdateOfExisting();
-    }
-
-    public List<CueCategory> findAllByIds(List<String> ids) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").in(ids));
-
-        return mongoOperations.find(query, CueCategory.class);
     }
 
 }

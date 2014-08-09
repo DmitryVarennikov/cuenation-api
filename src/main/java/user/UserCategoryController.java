@@ -1,6 +1,7 @@
 package user;
 
 import cue.CueCategory;
+import cue.CueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ public class UserCategoryController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CueService cueService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<UserCategoryResource>> list(@PathVariable("token") String token) {

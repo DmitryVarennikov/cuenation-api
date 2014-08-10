@@ -1,5 +1,7 @@
 package cue.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,14 +21,34 @@ public class UserCue {
     @DBRef
     private Cue cue;
 
+    private Date createdAt;
+
     private Date viewedAt;
 
+    @JsonCreator
     public UserCue(User user, Cue cue) {
         this.user = user;
         this.cue = cue;
+        this.createdAt = cue.getCreatedAt();
     }
 
     public String getId() {
         return id;
+    }
+
+    public Cue getCue() {
+        return cue;
+    }
+
+    public Date getViewedAt() {
+        return viewedAt;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
 }

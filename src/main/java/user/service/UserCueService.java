@@ -3,8 +3,8 @@ package user.service;
 import cue.dao.UserCueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import user.UserCueController;
 import user.domain.User;
-import user.request.UserViewedCuesRequest;
 
 @Service
 public class UserCueService {
@@ -12,7 +12,7 @@ public class UserCueService {
     @Autowired
     private UserCueRepository userCueRepository;
 
-    public void markCuesAsViewed(User user, UserViewedCuesRequest request) {
+    public void markCuesAsViewed(User user, UserCueController.PuRequest request) {
         userCueRepository.markCuesAsViewed(user, request.getIds());
     }
 

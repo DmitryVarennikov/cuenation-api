@@ -1,5 +1,6 @@
 package user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import cue.dao.UserCueRepository;
 import cue.domain.UserCue;
 import cue.service.CueService;
@@ -13,16 +14,13 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import user.dao.UserRepository;
 import user.domain.User;
 import user.representation.UserCueResourceAssembler;
-import user.request.UserViewedCuesRequest;
 import user.service.UserCueService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user-tokens/{token}/cues")
@@ -70,7 +68,7 @@ public class UserCueController {
     @RequestMapping(method = RequestMethod.PUT)
     public HttpEntity put(
             @PathVariable("token") String token,
-            @RequestBody UserViewedCuesRequest request) {
+            @RequestBody PuRequest request) {
 
         User user = userRepository.findByToken(token);
 
@@ -83,6 +81,16 @@ public class UserCueController {
         }
 
         return responseEntity;
+    }
+
+    public static class PuRequest {
+
+        @JsonProperty("ids")
+        private List<String> ids;
+
+        public List<String> getIds() {
+            return ids;
+        }
     }
 
 }

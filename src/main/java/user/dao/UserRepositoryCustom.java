@@ -1,10 +1,10 @@
 package user.dao;
 
+import user.UserCategoryController;
 import user.domain.User;
-import user.request.UserSubscribedCategoriesRequest;
 
 public interface UserRepositoryCustom {
 
-    void saveUserCategories(User user, UserSubscribedCategoriesRequest request);
+    void saveUserCategories(User user, UserCategoryController.PutRequest request);
 
 }

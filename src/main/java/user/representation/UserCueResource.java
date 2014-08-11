@@ -28,10 +28,13 @@ public class UserCueResource extends ResourceSupport {
     public UserCueResource(UserCue userCue) {
         Cue cue = userCue.getCue();
 
-        id = cue.getId();
+        // NOTE: this is an an original Cue ID but a UserCue Id!
+        id = userCue.getId();
+        // time of cues creation is duplicated for user cues in order to fetch them in a reverse order
+        createdAt = userCue.getCreatedAt();
+
         title = cue.getTitle();
         link = cue.getLink();
-        createdAt = cue.getCreatedAt();
     }
 
 }

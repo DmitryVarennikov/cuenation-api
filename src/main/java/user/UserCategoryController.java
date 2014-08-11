@@ -1,5 +1,6 @@
 package user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import cue.domain.CueCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ResourceSupport;
@@ -11,7 +12,6 @@ import user.dao.UserRepository;
 import user.domain.User;
 import user.representation.UserCategoryResource;
 import user.representation.UserCategoryResourceAssembler;
-import user.request.UserSubscribedCategoriesRequest;
 
 import java.util.List;
 
@@ -45,8 +45,7 @@ public class UserCategoryController {
     @RequestMapping(method = RequestMethod.PUT)
     public HttpEntity<List<UserCategoryResource>> put(
             @PathVariable("token") String token,
-            @RequestBody UserSubscribedCategoriesRequest request) {
-
+            @RequestBody PutRequest request) {
         User user = userRepository.findByToken(token);
 
         ResponseEntity responseEntity;
@@ -54,11 +53,21 @@ public class UserCategoryController {
             responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             userRepository.saveUserCategories(user, request);
-            
+
             responseEntity = new ResponseEntity<>(HttpStatus.OK);
         }
 
         return responseEntity;
+    }
+
+    public static class PutRequest {
+
+        @JsonProperty("ids")
+        private List<String> ids;
+
+        public List<String> getIds() {
+            return ids;
+        }
     }
 
 }

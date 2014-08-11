@@ -7,7 +7,6 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import user.UserTokenController;
 import user.domain.User;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 public class UserResource extends ResourceSupport {

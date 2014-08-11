@@ -2,16 +2,17 @@ package cue;
 
 import cue.dao.CueCategoryRepository;
 import cue.domain.CueCategory;
-import cue.representation.CueCategoryResource;
+import cue.representation.CueCategoryResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.ResourceSupport;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -21,21 +22,15 @@ public class CategoryController {
     @Autowired
     private CueCategoryRepository cueCategoryRepository;
 
+    @Autowired
+    private CueCategoryResourceAssembler cueCategoryResourceAssembler;
+
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<CueCategoryResource>> list() {
-        List<CueCategoryResource> resources;
-        List<CueCategory> categories = cueCategoryRepository.findAll();
+    public HttpEntity<ResourceSupport> list() {
+        List<CueCategory> categories = cueCategoryRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
+        ResourceSupport response = cueCategoryResourceAssembler.getResponse(categories);
 
-        if (categories.isEmpty()) {
-            resources = Collections.EMPTY_LIST;
-        } else {
-            resources = new LinkedList<>();
-            for (CueCategory category : categories) {
-                resources.add(new CueCategoryResource(category));
-            }
-        }
-
-        return new ResponseEntity<>(resources, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

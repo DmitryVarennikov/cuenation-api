@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import cue.domain.Cue;
 import cue.domain.UserCue;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
 import java.util.Date;
 
+@Relation(collectionRelation = "userCues")
 public class UserCueResource extends ResourceSupport {
 
     @JsonProperty("id")

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import cue.domain.CueCategory;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
+@Relation(collectionRelation = "userCueCategories")
 public class UserCategoryResource extends ResourceSupport {
 
     @JsonProperty("id")

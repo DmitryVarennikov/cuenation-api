@@ -10,6 +10,9 @@ import java.util.Date;
 
 public class UserCueResource extends ResourceSupport {
 
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty("title")
     private String title;
 
@@ -23,6 +26,7 @@ public class UserCueResource extends ResourceSupport {
     public UserCueResource(UserCue userCue) {
         Cue cue = userCue.getCue();
 
+        id = cue.getId();
         title = cue.getTitle();
         link = cue.getLink();
         createdAt = cue.getCreatedAt();

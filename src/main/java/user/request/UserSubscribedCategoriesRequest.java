@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class UserCategories {
+public class UserSubscribedCategoriesRequest {
 
-    @JsonProperty("category_ids")
-    private List<String> categoryIds;
+    @JsonProperty("ids")
+    private List<String> ids;
 
-    public List<String> getCategoryIds() {
-        return categoryIds;
+    public List<String> getIds() {
+        return ids;
     }
 
     @Override
     public String toString() {
         return "UserCategoryBodyRequest{" +
-                "categoryIds=" + categoryIds +
+                "ids=" + ids +
                 '}';
     }
 }

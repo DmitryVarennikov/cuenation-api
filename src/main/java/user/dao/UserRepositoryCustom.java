@@ -1,10 +1,10 @@
 package user.dao;
 
 import user.domain.User;
-import user.request.UserCategories;
+import user.request.UserSubscribedCategoriesRequest;
 
 public interface UserRepositoryCustom {
 
-    void saveUserCategories(User user, UserCategories request);
+    void saveUserCategories(User user, UserSubscribedCategoriesRequest request);
 
 }

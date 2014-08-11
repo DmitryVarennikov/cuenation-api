@@ -8,10 +8,8 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface UserCueRepository extends MongoRepository<UserCue, String> {
+public interface UserCueRepository extends MongoRepository<UserCue, String>, UserCueRepositoryCustom {
 
     Page<UserCue> findAllByViewedAtExists(boolean exists, Pageable pageable);
-
-//    List<UserCue> findAllByViewedAtExists(boolean exists, PageRequest pageRequest);
 
 }

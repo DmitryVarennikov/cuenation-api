@@ -40,10 +40,13 @@ abstract public class AbstractContextControllerTests {
                 .andReturn();
 
         String locationHeader = mvcResult.getResponse().getHeader("Location");
+        return pullOutTokenFromUrl(locationHeader);
+    }
 
+    protected String pullOutTokenFromUrl(String url) {
         String regex = ".*([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).*";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(locationHeader);
+        Matcher matcher = pattern.matcher(url);
 
 
         String token = "";
@@ -52,7 +55,7 @@ abstract public class AbstractContextControllerTests {
         }
 
         if (0 == token.length()) {
-            String message = String.format("Could not locate token in the \"Location\" header: [%s]", locationHeader);
+            String message = String.format("Could not locate token in the url: [%s]", url);
             throw new RuntimeException(message);
         }
 

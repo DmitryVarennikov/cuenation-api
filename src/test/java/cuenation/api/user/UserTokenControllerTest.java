@@ -11,14 +11,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,31 +37,17 @@ public class UserTokenControllerTest extends AbstractContextControllerTests {
     @Test
     public void createAndCheckUserToken() throws Exception {
         MvcResult mvcResult = mockMvc.perform(post("/user-tokens").accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
+                .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(header().string("Location", containsString("http://localhost/user-tokens/")))
                 .andReturn();
 
         String locationHeader = mvcResult.getResponse().getHeader("Location");
-
-        String regex = ".*([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).*";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(locationHeader);
-
-
-        String token = "";
-        if (matcher.matches() && matcher.groupCount() > 0) {
-            token = matcher.group(1).trim();
-        }
-
-        if (0 == token.length()) {
-            String message = String.format("Could not locate token in the \"Location\" header: [%s]", locationHeader);
-            throw new RuntimeException(message);
-        }
+        String token = pullOutTokenFromUrl(locationHeader);
 
         mockMvc.perform(get("/user-tokens/{token}", token).accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("$._links.self.href", anything()))

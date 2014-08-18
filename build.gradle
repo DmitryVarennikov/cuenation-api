@@ -28,6 +28,14 @@ repositories {
     maven { url "http://m2.neo4j.org" }
 }
 
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.name == 'log4j') {
+            details.useTarget "org.slf4j:log4j-over-slf4j:1.7.7"
+        }
+    }
+}
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("com.fasterxml.jackson.core:jackson-databind")
@@ -38,6 +46,11 @@ dependencies {
     compile 'rome:rome-fetcher:1.0'
     compile 'rome:rome:1.0'
     compile 'org.jsoup:jsoup:1.7.+'
+
+    //common dependencies
+    compile "org.slf4j:slf4j-api:1.7.7"
+    compile 'log4j:log4j:1.2.17'
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.springframework:spring-test")
     testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -56,16 +69,3 @@ task updateCues(type: JavaExec) {
     main = 'cuenation.api.cli.UpdateCues'
     classpath = sourceSets.main.runtimeClasspath
 }
-
-//test {
-//    useJUnit()
-//
-//    // show standard out and standard error of the test JVM(s) on the console
-//    testLogging.showStandardStreams = true
-//}
-
-//test {
-//    testLogging {
-//        events "passed", "skipped", "failed", "standardOut", "standardError"
-//    }
-//}

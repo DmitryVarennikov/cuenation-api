@@ -10,3 +10,8 @@ META-INF/
 # gradle files
 .gradle
 build/
+
+
+# log files
+/log/
+!/log/.gitkeep

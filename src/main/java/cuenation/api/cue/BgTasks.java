@@ -19,17 +19,17 @@ public class BgTasks {
 
     @Scheduled(cron = "0 */10 * * * *")
     public void updateCues() {
-        cueService.updateCues();
+        int cuesNumber = cueService.updateCues();
 
-        String message = "Cues updated!";
+        String message = String.format("%d cues added", cuesNumber);
         logger.info(message);
     }
 
     @Scheduled(cron = "0 0 0 * * *")
     public void updateCueCategories() {
-        cueService.updateCueCategories();
+        int cueCategoriesNumber = cueService.updateCueCategories();
 
-        String message = "Cue categories updated!";
+        String message = String.format("%d cue categories added", cueCategoriesNumber);
         logger.info(message);
     }
 

@@ -32,7 +32,7 @@ import java.util.List;
 @RequestMapping("/user-tokens/{token}/cues")
 public class UserCueController {
 
-    Logger logger = LogManager.getLogger(UserCueController.class);
+//    Logger logger = LogManager.getLogger(UserCueController.class);
 
 //    Logger logger = LoggerFactory.getLogger(UserCueController.class);
 
@@ -73,9 +73,9 @@ public class UserCueController {
         }
 
 
-        logger.info("Logger name: " + logger.getName());
-        logger.info("Logger isInfoEnabled: " + logger.isInfoEnabled());
-        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//        logger.info("Logger name: " + logger.getName());
+//        logger.info("Logger isInfoEnabled: " + logger.isInfoEnabled());
+//        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         return responseEntity;
     }

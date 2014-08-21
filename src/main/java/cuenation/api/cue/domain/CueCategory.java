@@ -1,6 +1,5 @@
 package cuenation.api.cue.domain;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -36,7 +35,8 @@ public class CueCategory {
     @Override
     public String toString() {
         return "CueCategory{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", link='" + link + '\'' +
                 '}';
     }

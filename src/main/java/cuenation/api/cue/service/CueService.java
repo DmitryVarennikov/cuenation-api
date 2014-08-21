@@ -51,7 +51,7 @@ public class CueService {
         List<CueCategory> subscribedCategories = user.getCategories();
 
         PageRequest pageRequest = new PageRequest(0, 1, new Sort(Sort.Direction.DESC, "id"));
-        Page page = userCueRepository.findAll(pageRequest);
+        Page page = userCueRepository.findAllByUser(user, pageRequest);
         UserCue recentUserCue = page.getContent().size() > 0 ? (UserCue) page.getContent().get(0) : null;
 
         List<Cue> freshCues;

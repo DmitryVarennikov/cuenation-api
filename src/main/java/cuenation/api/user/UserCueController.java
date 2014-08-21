@@ -8,8 +8,6 @@ import cuenation.api.user.domain.User;
 import cuenation.api.user.persistence.UserRepository;
 import cuenation.api.user.representation.UserCueResourceAssembler;
 import cuenation.api.user.service.UserCueService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,21 +18,13 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/user-tokens/{token}/cues")
 public class UserCueController {
-
-//    Logger logger = LogManager.getLogger(UserCueController.class);
-
-//    Logger logger = LoggerFactory.getLogger(UserCueController.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -67,15 +57,10 @@ public class UserCueController {
             cueService.updateUserCues(user);
 
 
-            Page<UserCue> userCues = userCueRepository.findAllByViewedAtExists(false, pageable);
+            Page<UserCue> userCues = userCueRepository.findAllByUserAndViewedAtExists(user, false, pageable);
             responseEntity = new ResponseEntity<PagedResources<UserCue>>(
                     assembler.toResource(userCues, userCueResourceAssembler), HttpStatus.OK);
         }
-
-
-//        logger.info("Logger name: " + logger.getName());
-//        logger.info("Logger isInfoEnabled: " + logger.isInfoEnabled());
-//        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         return responseEntity;
     }

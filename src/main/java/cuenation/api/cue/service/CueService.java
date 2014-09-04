@@ -11,8 +11,9 @@ import cuenation.api.cue.persistence.CueCategoryRepository;
 import cuenation.api.cue.persistence.CueRepository;
 import cuenation.api.cue.persistence.UserCueRepository;
 import cuenation.api.user.domain.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,10 +25,15 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+
 @Service
 public class CueService {
 
-    Logger logger = LoggerFactory.getLogger(CueService.class);
+//    Logger logger = LoggerFactory.getLogger(CueService.class);
+
+    private static final Log logger = LogFactory.getLog(CueService.class);
 
     @Autowired
     private UserCueRepository userCueRepository;
@@ -55,8 +61,9 @@ public class CueService {
         UserCue recentUserCue = page.getContent().size() > 0 ? (UserCue) page.getContent().get(0) : null;
 
         List<Cue> freshCues;
+
         if (recentUserCue != null) {
-            freshCues = cueRepository.findByIdGreaterThanAndCategoryIn(recentUserCue.getId(), subscribedCategories);
+            freshCues = cueRepository.findByIdGreaterThanAndCategoryIn(new ObjectId(recentUserCue.getId()), subscribedCategories);
         } else {
             freshCues = cueRepository.findByCategoryIn(subscribedCategories);
         }

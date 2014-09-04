@@ -2,6 +2,7 @@ package cuenation.api.cue.persistence;
 
 import cuenation.api.cue.domain.Cue;
 import cuenation.api.cue.domain.CueCategory;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,6 @@ public interface CueRepository extends MongoRepository<Cue, String>, CueReposito
 
     List<Cue> findByCategoryIn(List<CueCategory> categories);
 
-    List<Cue> findByIdGreaterThanAndCategoryIn(String id, List<CueCategory> categories);
+    List<Cue> findByIdGreaterThanAndCategoryIn(ObjectId id, List<CueCategory> categories);
 
 }

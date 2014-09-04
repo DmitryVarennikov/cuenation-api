@@ -1,10 +1,10 @@
 package cuenation.api.cue.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import cuenation.api.user.domain.User;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import cuenation.api.user.domain.User;
 
 import java.util.Date;
 
@@ -49,5 +49,16 @@ public class UserCue {
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "UserCue{" +
+                "id='" + id + '\'' +
+                ", user=" + user +
+                ", cue=" + cue +
+                ", createdAt=" + createdAt +
+                ", viewedAt=" + viewedAt +
+                '}';
     }
 }

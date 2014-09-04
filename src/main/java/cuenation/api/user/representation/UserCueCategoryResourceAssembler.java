@@ -1,35 +1,35 @@
 package cuenation.api.user.representation;
 
 import cuenation.api.cue.domain.CueCategory;
+import cuenation.api.user.UserCueCategoryController;
+import cuenation.api.user.domain.User;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
-import cuenation.api.user.UserCategoryController;
-import cuenation.api.user.domain.User;
 
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @Component
-public class UserCategoryResourceAssembler extends ResourceAssemblerSupport<CueCategory, UserCategoryResource> {
+public class UserCueCategoryResourceAssembler extends ResourceAssemblerSupport<CueCategory, UserCueCategoryResource> {
 
-    public UserCategoryResourceAssembler() {
-        super(UserCategoryController.class, UserCategoryResource.class);
+    public UserCueCategoryResourceAssembler() {
+        super(UserCueCategoryController.class, UserCueCategoryResource.class);
     }
 
     @Override
-    public UserCategoryResource toResource(CueCategory category) {
-        return new UserCategoryResource(category);
+    public UserCueCategoryResource toResource(CueCategory category) {
+        return new UserCueCategoryResource(category);
     }
 
     public ResourceSupport getResponse(User user, List<CueCategory> categories) {
-        List<UserCategoryResource> categoryResources = toResources(categories);
+        List<UserCueCategoryResource> categoryResources = toResources(categories);
         Resources resource = Resources.wrap(categoryResources);
 
-        resource.add(ControllerLinkBuilder.linkTo(methodOn(UserCategoryController.class).list(user.getToken())).withSelfRel());
+        resource.add(ControllerLinkBuilder.linkTo(methodOn(UserCueCategoryController.class).list(user.getToken())).withSelfRel());
 
         return resource;
     }

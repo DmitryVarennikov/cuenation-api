@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UserCategoryControllerTest extends AbstractContextControllerTests {
+public class UserCueCategoryControllerTest extends AbstractContextControllerTests {
 
     private MockMvc mockMvc;
 
@@ -37,7 +37,7 @@ public class UserCategoryControllerTest extends AbstractContextControllerTests {
 
     @Test
     public void userNotFound() throws Exception {
-        mockMvc.perform(get("/user-tokens/{token}/categories", "non-existing-token")
+        mockMvc.perform(get("/user-tokens/{token}/cue-categories", "non-existing-token")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
         ;
@@ -47,7 +47,7 @@ public class UserCategoryControllerTest extends AbstractContextControllerTests {
     public void userCategoriesNotSet() throws Exception {
         String token = createUser(mockMvc);
 
-        mockMvc.perform(get("/user-tokens/{token}/categories", token)
+        mockMvc.perform(get("/user-tokens/{token}/cue-categories", token)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -59,11 +59,11 @@ public class UserCategoryControllerTest extends AbstractContextControllerTests {
         String token = createUser(mockMvc);
 
         List<String> ids = savePreparedCategories();
-        UserCategoryController.PutRequest request = new UserCategoryController.PutRequest();
+        UserCueCategoryController.PutRequest request = new UserCueCategoryController.PutRequest();
         ReflectionTestUtils.setField(request, "ids", ids);
 
 
-        mockMvc.perform(put("/user-tokens/{token}/categories", token)
+        mockMvc.perform(put("/user-tokens/{token}/cue-categories", token)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(request)))
@@ -71,7 +71,7 @@ public class UserCategoryControllerTest extends AbstractContextControllerTests {
                 .andExpect(status().isOk())
         ;
 
-        mockMvc.perform(get("/user-tokens/{token}/categories", token)
+        mockMvc.perform(get("/user-tokens/{token}/cue-categories", token)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

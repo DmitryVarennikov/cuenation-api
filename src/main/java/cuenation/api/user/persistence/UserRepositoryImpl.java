@@ -3,7 +3,7 @@ package cuenation.api.user.persistence;
 import cuenation.api.cue.persistence.CueCategoryRepository;
 import cuenation.api.cue.domain.CueCategory;
 import org.springframework.beans.factory.annotation.Autowired;
-import cuenation.api.user.UserCategoryController;
+import cuenation.api.user.UserCueCategoryController;
 import cuenation.api.user.domain.User;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private UserRepository userRepository;
 
     @Override
-    public void saveUserCategories(User user, UserCategoryController.PutRequest request) {
+    public void saveUserCategories(User user, UserCueCategoryController.PutRequest request) {
         List<CueCategory> categories = cueCategoryRepository.findByIdIn(request.getIds());
 
         user.setCategories(categories);

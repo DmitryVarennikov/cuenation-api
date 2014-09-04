@@ -136,10 +136,10 @@ public class UserCueControllerTest extends AbstractContextControllerTests {
 
     private void subscribeForCategories(String token, List<CueCategory> categories) throws Exception {
         List<String> ids = Arrays.asList(categories.get(0).getId(), categories.get(1).getId());
-        UserCategoryController.PutRequest request = new UserCategoryController.PutRequest();
+        UserCueCategoryController.PutRequest request = new UserCueCategoryController.PutRequest();
         ReflectionTestUtils.setField(request, "ids", ids);
 
-        mockMvc.perform(put("/user-tokens/{token}/categories", token)
+        mockMvc.perform(put("/user-tokens/{token}/cue-categories", token)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(request)))

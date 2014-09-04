@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import cuenation.api.cue.domain.CueCategory;
 import cuenation.api.user.domain.User;
 import cuenation.api.user.persistence.UserRepository;
-import cuenation.api.user.representation.UserCategoryResource;
-import cuenation.api.user.representation.UserCategoryResourceAssembler;
+import cuenation.api.user.representation.UserCueCategoryResource;
+import cuenation.api.user.representation.UserCueCategoryResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.ResourceSupport;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-tokens/{token}/categories")
-public class UserCategoryController {
+@RequestMapping("/user-tokens/{token}/cue-categories")
+public class UserCueCategoryController {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private UserCategoryResourceAssembler userCategoryResourceAssembler;
+    private UserCueCategoryResourceAssembler userCueCategoryResourceAssembler;
 
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<ResourceSupport> list(@PathVariable("token") String token) {
@@ -36,7 +36,7 @@ public class UserCategoryController {
             responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             List<CueCategory> categories = user.getCategories();
-            ResourceSupport response = userCategoryResourceAssembler.getResponse(user, categories);
+            ResourceSupport response = userCueCategoryResourceAssembler.getResponse(user, categories);
 
             responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
         }
@@ -45,7 +45,7 @@ public class UserCategoryController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public HttpEntity<List<UserCategoryResource>> put(
+    public HttpEntity<List<UserCueCategoryResource>> put(
             @PathVariable("token") String token,
             @RequestBody PutRequest request) {
         User user = userRepository.findByToken(token);

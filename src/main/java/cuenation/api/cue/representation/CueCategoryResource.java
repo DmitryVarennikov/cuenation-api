@@ -3,7 +3,6 @@ package cuenation.api.cue.representation;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import cuenation.api.cue.domain.CueCategory;
-import org.bson.types.ObjectId;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
@@ -16,6 +15,9 @@ public class CueCategoryResource extends ResourceSupport {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("host")
+    private String host;
+
     @JsonProperty("link")
     private String link;
 
@@ -23,6 +25,7 @@ public class CueCategoryResource extends ResourceSupport {
     public CueCategoryResource(CueCategory cueCategory) {
         id = cueCategory.getId();
         name = cueCategory.getName();
+        host = cueCategory.getHost();
         link = cueCategory.getLink();
     }
 

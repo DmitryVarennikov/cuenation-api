@@ -13,10 +13,22 @@ public class CueCategory {
     @Indexed(unique = true)
     private String name;
 
+    private String host;
+
     private String link;
+
+    public CueCategory() {
+        
+    }
 
     public CueCategory(String name, String link) {
         this.name = name;
+        this.link = link;
+    }
+
+    public CueCategory(String name, String host, String link) {
+        this.name = name;
+        this.host = host;
         this.link = link;
     }
 
@@ -32,11 +44,16 @@ public class CueCategory {
         return link;
     }
 
+    public String getHost() {
+        return host;
+    }
+
     @Override
     public String toString() {
         return "CueCategory{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", host='" + host + '\'' +
                 ", link='" + link + '\'' +
                 '}';
     }

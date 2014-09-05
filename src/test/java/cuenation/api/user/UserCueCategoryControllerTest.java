@@ -80,13 +80,15 @@ public class UserCueCategoryControllerTest extends AbstractContextControllerTest
                 .andExpect(jsonPath("$._embedded.userCueCategories", hasSize(2)))
                 .andExpect(jsonPath("$._embedded.userCueCategories[0].name", equalTo("name1")))
                 .andExpect(jsonPath("$._embedded.userCueCategories[0].link", equalTo("link1")))
+                .andExpect(jsonPath("$._embedded.userCueCategories[0].host", equalTo("host1")))
                 .andExpect(jsonPath("$._embedded.userCueCategories[1].name", equalTo("name2")))
+                .andExpect(jsonPath("$._embedded.userCueCategories[1].host", equalTo(null)))
                 .andExpect(jsonPath("$._embedded.userCueCategories[1].link", equalTo("link2")))
         ;
     }
 
     private List<String> savePreparedCategories() {
-        CueCategory category1 = new CueCategory("name1", "link1");
+        CueCategory category1 = new CueCategory("name1", "host1", "link1");
         CueCategory category2 = new CueCategory("name2", "link2");
 
         operations.save(category1);

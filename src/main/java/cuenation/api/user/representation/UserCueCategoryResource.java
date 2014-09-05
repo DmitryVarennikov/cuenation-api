@@ -15,6 +15,9 @@ public class UserCueCategoryResource extends ResourceSupport {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("host")
+    private String host;
+
     @JsonProperty("link")
     private String link;
 
@@ -22,6 +25,7 @@ public class UserCueCategoryResource extends ResourceSupport {
     public UserCueCategoryResource(CueCategory cueCategory) {
         id = cueCategory.getId();
         name = cueCategory.getName();
+        host = cueCategory.getHost();
         link = cueCategory.getLink();
     }
 

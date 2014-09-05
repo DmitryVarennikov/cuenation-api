@@ -17,9 +17,20 @@ public class CueCategoryRepositoryImpl implements CueCategoryRepositoryCustom {
     public boolean saveIfNotExists(CueCategory category) {
         Query query = new Query();
         query.addCriteria(Criteria.where("name").is(category.getName()));
+        // this allows us to update host if it was not set before
+        // (primarily was used just one time when we added hosts to the existing categories)
+        query.addCriteria(Criteria.where("host").exists(false));
 
         Update update = new Update();
-        update.set("name", category.getName()).set("link", category.getLink());
+        update
+                .set("name", category.getName())
+                .set("link", category.getLink())
+        ;
+
+        String host = category.getHost();
+        if (host != null) {
+            update.set("host", category.getHost());
+        }
 
         WriteResult writeResult = operations.upsert(query, update, CueCategory.class);
         return !writeResult.isUpdateOfExisting();

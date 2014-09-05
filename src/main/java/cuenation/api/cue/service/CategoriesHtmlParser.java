@@ -16,7 +16,7 @@ public class CategoriesHtmlParser {
 
     public List<CueCategory> parse() throws IOException {
         List<CueCategory> categories = new LinkedList<>();
-        String text, href;
+        String text, host, href;
 
         Document doc = Jsoup.connect("http://cuenation.com/?page=categories").get();
         Elements lists = doc.getElementsByClass("list");
@@ -29,7 +29,13 @@ public class CategoriesHtmlParser {
                 href = "http://cuenation.com/" + link.attr("href");
 
                 if (text.length() > 0 && link.attr("href").length() > 0) {
-                    categories.add(new CueCategory(text, href));
+                    Elements hosts = link.parent().getElementsByTag("i");
+                    if (hosts.size() > 0) {
+                        host = hosts.get(0).text();
+                        categories.add(new CueCategory(text, host, href));
+                    } else {
+                        categories.add(new CueCategory(text, href));
+                    }
                 }
             }
         }

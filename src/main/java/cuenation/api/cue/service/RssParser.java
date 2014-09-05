@@ -29,7 +29,7 @@ public class RssParser {
 
             // avoid adding non-full cues
             if (title.length() > 0 && link.length() > 0 && category.length() > 0) {
-                cueCategory = new CueCategory(category, "");
+                cueCategory = new CueCategory(category, "", "");
 
                 cues.add(new Cue(title, link, createdAt, cueCategory));
             }

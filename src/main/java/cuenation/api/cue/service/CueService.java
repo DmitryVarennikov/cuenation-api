@@ -5,7 +5,6 @@ import com.sun.syndication.fetcher.FetcherException;
 import com.sun.syndication.io.FeedException;
 import cuenation.api.cue.domain.Cue;
 import cuenation.api.cue.domain.CueCategory;
-import cuenation.api.cue.domain.UserCue;
 import cuenation.api.cue.persistence.CueCategoryNotFoundException;
 import cuenation.api.cue.persistence.CueCategoryRepository;
 import cuenation.api.cue.persistence.CueRepository;
@@ -13,16 +12,13 @@ import cuenation.api.cue.persistence.UserCueRepository;
 import cuenation.api.user.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Date;
 import java.util.List;
 
 //import org.slf4j.Logger;
@@ -54,26 +50,20 @@ public class CueService {
     private CategoriesHtmlParser categoriesHtmlParser;
 
     public void updateUserCues(User user) {
-        List<CueCategory> subscribedCategories = user.getCategories();
+        // potentially there may be user cues which don't belong to the new categories
+        // How do I know if there are new categories? Actually I don't,
+        // that's why we process this clean up upon every request
+        userCueRepository.removeByUserAndCategoryNotIn(user, user.getCategories());
 
-        PageRequest pageRequest = new PageRequest(0, 1, new Sort(Sort.Direction.DESC, "id"));
-        Page page = userCueRepository.findAllByUser(user, pageRequest);
-        UserCue recentUserCue = page.getContent().size() > 0 ? (UserCue) page.getContent().get(0) : null;
+        // let's find all the cues not later than a month ago
+        // as we don't want to clutter user notifications with a year ago cues
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, -1);
+        Date laterThan = calendar.getTime();
 
-        List<Cue> freshCues;
-
-        if (recentUserCue != null) {
-            freshCues = cueRepository.findByIdGreaterThanAndCategoryIn(new ObjectId(recentUserCue.getId()), subscribedCategories);
-        } else {
-            freshCues = cueRepository.findByCategoryIn(subscribedCategories);
-        }
-
-        List<UserCue> userCues = new LinkedList<>();
-        for (Cue freshCue : freshCues) {
-            userCues.add(new UserCue(user, freshCue));
-        }
-
-        userCueRepository.save(userCues);
+        List<Cue> cues = cueRepository.findByCategoryInAndCreatedAtGreaterThan(user.getCategories(), laterThan);
+        userCueRepository.reSaveCues(user, cues);
     }
 
     public int updateCues() {

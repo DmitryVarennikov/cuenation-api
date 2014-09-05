@@ -17,10 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -96,7 +93,6 @@ public class UserCueControllerTest extends AbstractContextControllerTests {
                 .andExpect(jsonPath("$._embedded.userCues[1].link", equalTo("link2")))
                 .andReturn();
 
-
         String content = cuesResult.getResponse().getContentAsString();
         UserCueController.PuRequest request = prepareRequestToSetCueAsViewed(content);
 
@@ -149,9 +145,15 @@ public class UserCueControllerTest extends AbstractContextControllerTests {
     }
 
     private void savePreparedCues(List<CueCategory> categories) {
-        Date createdAt1 = new Date(2014, 8, 15, 23, 33);
-        Date createdAt2 = new Date(2014, 8, 15, 23, 34);
+        Calendar calendar = Calendar.getInstance();
 
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, -5);
+        Date createdAt1 = calendar.getTime();
+
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, -4);
+        Date createdAt2 = calendar.getTime();
 
         Cue cue1 = new Cue("title1", "link1", createdAt2, categories.get(0));
         Cue cue2 = new Cue("title2", "link2", createdAt1, categories.get(1));

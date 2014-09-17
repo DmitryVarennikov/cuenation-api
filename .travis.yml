@@ -1,2 +1,5 @@
 language: java
-./gradlew check
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+

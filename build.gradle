@@ -14,7 +14,7 @@ apply plugin: 'spring-boot'
 
 jar {
     baseName = 'cuenation-api'
-    version = '0.0.1'
+    version = '0.1.0'
 }
 
 springBoot {

@@ -8,10 +8,12 @@ import org.junit.runner.RunWith;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,10 +36,10 @@ public class CategoryControllerTest extends AbstractContextControllerTests {
     public void getCategories() throws Exception {
         List<String> ids = savePreparedCategories();
 
-
-        mockMvc.perform(get("/cue-categories"))
+        MvcResult mvcResult = mockMvc.perform(get("/cue-categories"))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(header().string("ETag", notNullValue()))
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("$._embedded.cueCategories", hasSize(2)))
                 .andExpect(jsonPath("$._embedded.cueCategories[0].id", equalTo(ids.get(0))))
@@ -48,7 +50,15 @@ public class CategoryControllerTest extends AbstractContextControllerTests {
                 .andExpect(jsonPath("$._embedded.cueCategories[1].name", equalTo("name2")))
                 .andExpect(jsonPath("$._embedded.cueCategories[1].host", equalTo(null)))
                 .andExpect(jsonPath("$._embedded.cueCategories[1].link", equalTo("link2")))
-        ;
+                .andReturn();
+
+        String eTag = mvcResult.getResponse().getHeader("ETag");
+
+        mockMvc.perform(get("/cue-categories").header("If-None-Match", eTag))
+                .andDo(print())
+                .andExpect(status().isNotModified())
+                .andExpect(header().string("ETag", notNullValue()))
+                .andExpect(content().string(""));
     }
 
     private List<String> savePreparedCategories() {

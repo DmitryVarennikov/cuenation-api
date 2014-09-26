@@ -28,7 +28,7 @@ public class CueCategoryResourceAssembler extends ResourceAssemblerSupport<CueCa
         List<CueCategoryResource> categoryResources = toResources(categories);
         Resources resource = Resources.wrap(categoryResources);
 
-        resource.add(ControllerLinkBuilder.linkTo(methodOn(CategoryController.class).list("")).withSelfRel());
+        resource.add(ControllerLinkBuilder.linkTo(methodOn(CategoryController.class).list(null)).withSelfRel());
 
         return resource;
     }

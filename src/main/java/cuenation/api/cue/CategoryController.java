@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -36,9 +35,7 @@ public class CategoryController {
     private CueCategoryResourceAssembler cueCategoryResourceAssembler;
 
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<ResourceSupport> list(@RequestHeader(value = "If-None-Match", required = false) String ifNonMatch) {
-        ResponseEntity<ResourceSupport> response;
-
+    public HttpEntity<ResourceSupport> list(WebRequest request) {
         List<CueCategory> categories = cueCategoryRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
         ResourceSupport responseBody = cueCategoryResourceAssembler.getResponse(categories);
 
@@ -53,15 +50,11 @@ public class CategoryController {
             e.printStackTrace();
         }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("ETag", eTag);
-        if (eTag.equals(ifNonMatch)) {
-            response = new ResponseEntity<>(headers, HttpStatus.NOT_MODIFIED);
+        if (request.checkNotModified(eTag)) {
+            return null;
         } else {
-            response = new ResponseEntity<>(responseBody, headers, HttpStatus.OK);
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }
-
-        return response;
     }
 
 }

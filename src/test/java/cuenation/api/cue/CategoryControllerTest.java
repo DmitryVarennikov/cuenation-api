@@ -57,7 +57,8 @@ public class CategoryControllerTest extends AbstractContextControllerTests {
         mockMvc.perform(get("/cue-categories").header("If-None-Match", eTag))
                 .andDo(print())
                 .andExpect(status().isNotModified())
-                .andExpect(header().string("ETag", notNullValue()))
+                        // spring WebRequest does not send ETag in case of 304 response
+//                .andExpect(header().string("ETag", notNullValue()))
                 .andExpect(content().string(""));
     }
 

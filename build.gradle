@@ -47,7 +47,7 @@ dependencies {
     compile 'rome:rome:1.0'
     compile 'org.jsoup:jsoup:1.7.+'
 
-    //common dependencies
+    //util dependencies
     compile "org.slf4j:slf4j-api:1.7.7"
     compile 'log4j:log4j:1.2.17'
 

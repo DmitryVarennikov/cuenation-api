@@ -3,6 +3,7 @@ package cuenation.api.cue;
 import cuenation.api.cue.domain.CueCategory;
 import cuenation.api.cue.persistence.CueCategoryRepository;
 import cuenation.api.cue.representation.CueCategoryResourceAssembler;
+import cuenation.api.util.ETag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -40,12 +37,10 @@ public class CategoryController {
         ResourceSupport responseBody = cueCategoryResourceAssembler.getResponse(categories);
 
 
-        String eTag = "";
+        String eTag = null;
         try {
-            byte[] responseBytes = MessageDigest.getInstance("MD5").digest(responseBody.toString().getBytes("UTF-8"));
-            BigInteger number = new BigInteger(1, responseBytes);
-            eTag = number.toString(16);
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            eTag = ETag.create(responseBody.toString());
+        } catch (ETag.Exception e) {
             logger.error(e.toString());
             e.printStackTrace();
         }

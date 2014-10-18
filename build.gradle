@@ -14,7 +14,7 @@ apply plugin: 'spring-boot'
 
 jar {
     baseName = 'cuenation-api'
-    version = '0.1.1'
+    version = '0.1.2'
 }
 
 springBoot {
@@ -26,14 +26,6 @@ repositories {
     mavenCentral()
     maven { url "http://repo.spring.io/libs-release" }
     maven { url "http://m2.neo4j.org" }
-}
-
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if (details.requested.name == 'log4j') {
-            details.useTarget "org.slf4j:log4j-over-slf4j:1.7.7"
-        }
-    }
 }
 
 dependencies {

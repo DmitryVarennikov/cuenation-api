@@ -78,8 +78,11 @@ public class CueService {
                     cuesNumber++;
                 }
             }
-        } catch (CueCategoryNotFoundException | FetcherException | FeedException | IOException e) {
+        } catch (FetcherException | FeedException | IOException e) {
             logger.error(e.getMessage());
+            logger.error(e.getStackTrace());
+        } catch (CueCategoryNotFoundException e) {
+            logger.info(e.getMessage());
         }
 
         return cuesNumber;

@@ -9,6 +9,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +30,10 @@ public class CategoryControllerTest extends AbstractContextControllerTests {
     @Before
     public void setUp() {
         operations.dropCollection(CueCategory.class);
-        mockMvc = webAppContextSetup(this.wac).build();
+        mockMvc = webAppContextSetup(this.wac)
+                // @TODO: somehow move it to the `TestConfiguration` and merge with `WebConfig`
+                .addFilter(new ShallowEtagHeaderFilter(), "/cue-categories")
+                .build();
     }
 
     @Test
@@ -57,8 +61,6 @@ public class CategoryControllerTest extends AbstractContextControllerTests {
         mockMvc.perform(get("/cue-categories").header("If-None-Match", eTag))
                 .andDo(print())
                 .andExpect(status().isNotModified())
-                        // spring WebRequest does not send ETag in case of 304 response
-//                .andExpect(header().string("ETag", notNullValue()))
                 .andExpect(content().string(""));
     }
 

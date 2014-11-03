@@ -5,7 +5,6 @@ import com.sun.syndication.fetcher.FetcherException;
 import com.sun.syndication.io.FeedException;
 import cuenation.api.cue.domain.Cue;
 import cuenation.api.cue.domain.CueCategory;
-import cuenation.api.cue.persistence.CueCategoryNotFoundException;
 import cuenation.api.cue.persistence.CueCategoryRepository;
 import cuenation.api.cue.persistence.CueRepository;
 import cuenation.api.cue.persistence.UserCueRepository;
@@ -81,8 +80,6 @@ public class CueService {
         } catch (FetcherException | FeedException | IOException e) {
             logger.error(e.getMessage());
             logger.error(e.getStackTrace());
-        } catch (CueCategoryNotFoundException e) {
-            logger.info(e.getMessage());
         }
 
         return cuesNumber;

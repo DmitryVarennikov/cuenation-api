@@ -3,6 +3,8 @@ package cuenation.api.cue.persistence;
 import com.mongodb.WriteResult;
 import cuenation.api.cue.domain.Cue;
 import cuenation.api.cue.domain.CueCategory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,6 +13,8 @@ import org.springframework.data.mongodb.core.query.Update;
 
 public class CueRepositoryImpl implements CueRepositoryCustom {
 
+    private final Logger logger = LoggerFactory.getLogger(CueRepositoryImpl.class);
+
     @Autowired
     private CueCategoryRepository cueCategoryRepository;
 
@@ -18,14 +22,12 @@ public class CueRepositoryImpl implements CueRepositoryCustom {
     private MongoOperations operations;
 
     @Override
-    public boolean saveIfNotExists(Cue cue) throws CueCategoryNotFoundException {
+    public boolean saveIfNotExists(Cue cue) {
         // first make sure the given category exists in our db
         CueCategory cueCategory = cueCategoryRepository.findByName(cue.getCategory().getName());
         if (cueCategory == null) {
-            String message = String.format(
-                    "Cue category [%s] was not found, cue is not saved",
-                    cue.getCategory().getName());
-            throw new CueCategoryNotFoundException(message);
+            logger.info("Cue category \"{}\" was not found, cue is not saved", cue.getCategory().getName());
+            return false;
         }
 
         cue.setCategory(cueCategory);

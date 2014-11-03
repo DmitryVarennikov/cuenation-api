@@ -4,6 +4,6 @@ import cuenation.api.cue.domain.Cue;
 
 public interface CueRepositoryCustom {
 
-    boolean saveIfNotExists(Cue cue) throws CueCategoryNotFoundException;
+    boolean saveIfNotExists(Cue cue);
 
 }

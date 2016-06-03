@@ -89,8 +89,10 @@ public class UserCueControllerTest extends AbstractContextControllerTests {
                 .andExpect(jsonPath("$._embedded.userCues", hasSize(2)))
                 .andExpect(jsonPath("$._embedded.userCues[0].title", equalTo("title1")))
                 .andExpect(jsonPath("$._embedded.userCues[0].link", equalTo("link1")))
+                .andExpect(jsonPath("$._embedded.userCues[0].categoryId", equalTo(categories.get(0).getId())))
                 .andExpect(jsonPath("$._embedded.userCues[1].title", equalTo("title2")))
                 .andExpect(jsonPath("$._embedded.userCues[1].link", equalTo("link2")))
+                .andExpect(jsonPath("$._embedded.userCues[1].categoryId", equalTo(categories.get(1).getId())))
                 .andReturn();
 
         String content = cuesResult.getResponse().getContentAsString();

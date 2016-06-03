@@ -15,6 +15,9 @@ public class UserCueResource extends ResourceSupport {
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("categoryId")
+    private String categoryId;
+
     @JsonProperty("title")
     private String title;
 
@@ -28,10 +31,12 @@ public class UserCueResource extends ResourceSupport {
     public UserCueResource(UserCue userCue) {
         Cue cue = userCue.getCue();
 
-        // NOTE: this is an an original Cue ID but a UserCue Id!
+        // NOTE: this is not an original Cue ID but a UserCue Id!
         id = userCue.getId();
         // time of cues creation is duplicated for user cues in order to fetch them in a reverse order
         createdAt = userCue.getCreatedAt();
+        // in order to know to which category a cue belongs to
+        categoryId = userCue.getCategory().getId();
 
         title = cue.getTitle();
         link = cue.getLink();

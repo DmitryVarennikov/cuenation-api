@@ -54,6 +54,10 @@ public class UserCue {
         return cue;
     }
 
+    public CueCategory getCategory() {
+        return category;
+    }
+
     public Date getViewedAt() {
         return viewedAt;
     }
